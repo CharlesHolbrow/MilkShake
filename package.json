@@ -1,0 +1,16 @@
+{
+  "name": "MilkShake",
+  "description": "P2P File sharing in the browser",
+  "version": "0.1.0",
+  "private": true,
+  "author": "",
+  "dependencies": {
+    "express": ">=3.0"
+  },
+  "scripts": {
+    "start": "server.js"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
+}

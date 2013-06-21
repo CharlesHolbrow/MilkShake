@@ -3,6 +3,7 @@
 var config = {"iceServers":[{"url":"stun:stun.l.google.com:19302"}]};
 var constraints = {"optional": [{"DtlsSrtpKeyAgreement": true}, {"RtpDataChannels": true }] };
 var peerConnection = new webkitRTCPeerConnection(config, constraints);
+var iceCandidates = [];
 
 // triggered when an ice candidate is generated locally.
 // for  example by .setLocalDescription
@@ -16,7 +17,9 @@ peerConnection.onicecandidate = function (event) {
   // }
   // We can now add it to the answerer. 
   //if (!event || !event.candidate) return; answerer && answerer.addIceCandidate(event.candidate);
-  console.log("Got ICE Candidate:",  event.candidate);
+  if (event.candidate) {
+    iceCandidates.push(event.candidate)
+  };
 };
 
 
@@ -48,7 +51,8 @@ peerConnection.createOffer(function (offerDescription) {
 
   // Now that we have a sessionDescription
   console.log('Sess Desc:', offerDescription);
-  window.offerDescription = JSON.stringify(offerDescription);
+  document.getElementById('sdp').innerText = JSON.stringify(offerDescription);
+  window.offerDescription = offerDescription;
 }, function(arg) {
   console.log("Error creating offer:", arg);
 }, mediaConstraints);

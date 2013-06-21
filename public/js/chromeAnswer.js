@@ -3,6 +3,7 @@ var constraints = {"optional": [{"DtlsSrtpKeyAgreement": true}, {"RtpDataChannel
 
 // Create Peer
 var peerConnection = new webkitRTCPeerConnection(config, constraints);
+var iceCandidates = [];
 
 // onicecandidate triggered when an ice candidate is generated
 // locally. for  example by .setLocalDescription
@@ -10,7 +11,7 @@ peerConnection.onicecandidate = function (event) {
   // we have an ice candidate - and can add it to the answerer. 
   if (!event.candidate) return; 
   peerConnection.addIceCandidate(event.candidate);
-  console.log("Got ICE Candidate:",  event.candidate);
+  iceCandidates.push(event.candidate);
 };
 
 
@@ -32,10 +33,7 @@ dataChannel.onerror = function (event) { console.error(event); };
 
 // Create answer
 var createAnswer = function(offerDescription) {
-  console.log("before:", offerDescription);
   offerDescription = new RTCSessionDescription(offerDescription);
-  console.log('okay', typeof offerDescription);
-  console.log("after:", offerDescription);
   peerConnection.setRemoteDescription(offerDescription);
   peerConnection.createAnswer(function(answerDescription){
     peerConnection.setLocalDescription(answerDescription);

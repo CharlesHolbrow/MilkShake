@@ -7,4 +7,4 @@ var app = express();
 app.use(express.static(__dirname + '/public'));
 
 // server is an node.js http server as returned by http.createServer(function (req, res) {});
-var server = app.listen(3001);
+var server = app.listen(3000);

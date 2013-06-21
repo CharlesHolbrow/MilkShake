@@ -10,9 +10,13 @@ ICE agents include STUN and TURN servers.
 
 **STUN** - Session Traversal Utilities for NAT (STUN).
 Peers connect to a stun server to find their public facing
-addresses.
+addresses, AND other info on how they make be reached fron the 
+internet.
 
-**TURN** - Traversal Using Relays around NAT (TURN).
+**TURN** - Traversal Using Relays around NAT (TURN). Like a
+stun server, but can relay data from one peer to another if the
+clients are unable to connect directly. Every TURN server is
+also a stun server.
 
 **SDP** - Session Description Protocol -
 [Wikipedia](http://en.wikipedia.org/wiki/Session_Description_Protocol) - a format for
@@ -20,6 +24,7 @@ describing streaming media initialization parameters
 [21:53:46.489]
 
 An example sdp from aRTCPeerConnection.localDescription.sdp looks like this:
+
     "v=0
     o=Mozilla-SIPUA-24.0a1 15165 0 IN IP4 0.0.0.0
     s=SIP Call
@@ -53,7 +58,7 @@ An example sdp from aRTCPeerConnection.localDescription.sdp looks like this:
 **ICE Agent** - \[Verify\] A peer trying to connect to
 another peer via ICE
 
-The following terms are from the [IEFT ICE Spec](http://www.ietf.org/rfc/rfc5245.txt)
+The following terms are from the [IETF ICE Spec](http://www.ietf.org/rfc/rfc5245.txt)
 
 **ICE Peer** - From the perspective of one of the agents in a session, its
 peer is the other agent.  Specifically, from the perspective of
@@ -86,15 +91,16 @@ Pass in TURN/STUN server info on init
     var con = { 'optional': [{'DtlsSrtpKeyAgreement': true}, {'RtpDataChannels': true }] };
     var connection = new RTCPeerConnection(cfg, con);
 
-
-The following associated objects are initialized when A RTCPeerConnection is created:
+The following associated objects are initialized when an
+RTCPeerConnection is created:
 
 - ICE agent
 - RTCPeerConnection signaling state
 - ICE gathering state
 - ICE gathering state
 
-The following associate object are Initialized to empty sets when RTCPeerConnection is created
+The following associate object are Initialized to empty sets
+when RTCPeerConnection is created
 
 - local stream set (represent streams that are currently sent with this peer)
 - remote stream set (represent streams that are currently received with this peer)
@@ -155,15 +161,19 @@ Example of setting up a RTCPeerConnection
       console.log(event.data);
     }
 
+There is more information about how constraints work
+[here](http://tools.ietf.org/html/draft-alvestrand-constraints-resolution-02).
+However, This linked document is just spec proposal, and the
+Chrome implementation is far from complete.
+
 The DtlsSrtpKeyAgreement field in the argument to
-createDataChannel is required for firefox/chrome
+createDataChannel is required for Firefox/Chrome
 interoperability reasons. [Source](http://www.webrtc.org/interop)
 
 More about [DTSL-SRTP](http://tools.ietf.org/html/draft-ietf-avt-dtls-srtp-07).
 
 Helpful Links
 =============
-[Webrtc on Chrome for Beginners](https://webrtc-experiment.appspot.com/docs/rtc-datachannel-for-beginners.html);
-[Tutorial on some abstraction lib](https://webrtc-experiment.appspot.com/docs/how-to-use-rtcdatachannel.html);
-
+[Webrtc on Chrome for Beginners](https://webrtc-experiment.appspot.com/docs/rtc-datachannel-for-beginners.html);  
+[Tutorial on some abstraction lib](https://webrtc-experiment.appspot.com/docs/how-to-use-rtcdatachannel.html);  
 
